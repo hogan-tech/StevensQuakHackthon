@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>焦慮次數追蹤器</title>
+        <title>Anxiety Tracker</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -39,15 +39,15 @@
     </head>
 
     <body>
-        <h1>焦慮次數追蹤</h1>
-        <p>當你感到焦慮時，按下按鈕記錄</p>
+        <h1>Anxiety Tracking</h1>
+        <p>Press the button when you're feeling anxious to log it</p>
 
-        <button id="trackButton">我現在感到焦慮</button>
+        <button id="trackButton">I'm feeling anxious</button>
 
-        <div id="counter">今日焦慮次數: 0</div>
+        <div id="counter">Today's anxiety count: 0</div>
 
         <div id="log">
-            <h3>記錄歷史</h3>
+            <h3>History Log</h3>
             <ul id="logList"></ul>
         </div>
 
@@ -57,10 +57,10 @@
             const counterDisplay = document.getElementById("counter");
             const logList = document.getElementById("logList");
 
-            // 從本地存儲加載數據
+            // Load data from local storage
             if (localStorage.getItem("anxietyCount")) {
                 count = parseInt(localStorage.getItem("anxietyCount"));
-                counterDisplay.textContent = `今日焦慮次數: ${count}`;
+                counterDisplay.textContent = `Today's anxiety count: ${count}`;
             }
 
             if (localStorage.getItem("anxietyLog")) {
@@ -69,9 +69,9 @@
 
             trackButton.addEventListener("click", function () {
                 count++;
-                counterDisplay.textContent = `今日焦慮次數: ${count}`;
+                counterDisplay.textContent = `Today's anxiety count: ${count}`;
 
-                // 記錄時間戳
+                // Log timestamp
                 const now = new Date();
                 const timeString = now.toLocaleTimeString();
                 const dateString = now.toLocaleDateString();
@@ -80,7 +80,7 @@
                 logItem.textContent = `${dateString} ${timeString}`;
                 logList.prepend(logItem);
 
-                // 保存到本地存儲
+                // Save to local storage
                 localStorage.setItem("anxietyCount", count);
                 localStorage.setItem("anxietyLog", logList.innerHTML);
             });
