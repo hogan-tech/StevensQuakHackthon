@@ -6,7 +6,7 @@ import anxietyRoutes from "./anxiety.js";
 const constructorMethod = (app) => {
     app.use("/anxiety", anxietyRoutes);
     app.use("*", (req, res) => {
-        res.status(404).json({ error: "Not found" });
+        res.status(404).json({ error: "Hello world" });
     });
 };
 
