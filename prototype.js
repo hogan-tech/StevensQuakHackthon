@@ -1,124 +1,53 @@
-$(function () {
-    $("#logoutBtn").on("click", async function () {
-        const user = JSON.parse(localStorage.getItem("loggedInUser"));
-        if (user && user.userName) {
-            const bufferKey = `anxietyBuffer_${user.userName}`;
-            const buffer = JSON.parse(localStorage.getItem(bufferKey));
+// prototype.js
 
-            // // ✅ 若有暫存資料就送出
-            // if (buffer && buffer.count > 0) {
-            //     try {
-            //         await axios.post("http://localhost:3000/anxiety", {
-            //             userName: user.userName,
-            //             hourKey: buffer.hourKey,
-            //             count: buffer.count,
-            //         });
-            //         console.log("登出前已補送 buffer");
-            //     } catch (err) {
-            //         console.error("登出前補送失敗：", err);
-            //     }
-            // }
-        }
+let count = 0;
+const trackButton = document.getElementById("trackButton");
+const counterDisplay = document.getElementById("counter");
+const logList = document.getElementById("logList");
+const clearLogButton = document.getElementById("clearLog");
 
-        // ✅ 然後才清除 localStorage 資料
-        localStorage.removeItem("loggedInUser");
-        // Object.keys(localStorage).forEach(function (key) {
-        //     if (key.startsWith("anxietyBuffer_")) {
-        //         localStorage.removeItem(key);
-        //     }
-        // });
+// 從本地存儲加載數據
+if (localStorage.getItem("anxietyCount")) {
+    count = parseInt(localStorage.getItem("anxietyCount"));
+    counterDisplay.textContent = `今日焦慮次數: ${count}`;
+}
 
-        // ✅ 最後導回登入頁
-        window.location.href = "./login.html";
-    });
+if (localStorage.getItem("anxietyLog")) {
+    logList.innerHTML = localStorage.getItem("anxietyLog");
+}
 
-    let hourlyTimer = null;
+// 處理按鈕點擊
+trackButton.addEventListener("click", function () {
+    count++;
+    counterDisplay.textContent = `今日焦慮次數: ${count}`;
 
-    function getUser() {
-        return JSON.parse(localStorage.getItem("loggedInUser"));
-    }
+    // 記錄時間戳
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    const dateString = now.toLocaleDateString();
 
-    function getHourKey(date = new Date()) {
-        return date.toISOString().slice(0, 13); // 例如 "2025-03-29T14"
-    }
+    const logItem = document.createElement("li");
+    logItem.textContent = `${dateString} ${timeString}`;
+    logList.prepend(logItem);
 
-    function getBufferKey(userName) {
-        return `anxietyBuffer_${userName}`;
-    }
+    // 保存到本地存儲
+    localStorage.setItem("anxietyCount", count);
+    localStorage.setItem("anxietyLog", logList.innerHTML);
 
-    function sendBufferedAnxiety() {
-        const user = getUser();
-        if (!user || !user.userName) return;
+    // 切換按鈕圖案（短暫效果）
+    trackButton.style.backgroundImage = "url('./images/duck_pressed.png')";
+    setTimeout(() => {
+        trackButton.style.backgroundImage = "url('./images/duck_normal.png')";
+    }, 200);
+});
 
-        const bufferKey = getBufferKey(user.userName);
-        const buffer = JSON.parse(localStorage.getItem(bufferKey));
+// 清除紀錄功能
+clearLogButton.addEventListener("click", function () {
+    count = 0;
+    counterDisplay.textContent = `今日焦慮次數: 0`;
+    logList.innerHTML = "";
 
-        if (buffer && buffer.count > 0) {
-            axios
-                .post("http://localhost:3000/anxiety", {
-                    userName: user.userName,
-                    hourKey: buffer.hourKey,
-                    count: buffer.count,
-                })
-                .then(function (res) {
-                    const { timestamp, totalCount } = res.data;
-
-                    $("#counter").text(`Today's anxiety count: ${totalCount}`);
-                    $("#logList").prepend(
-                        `<li>${timestamp} (+${totalCount})</li>`
-                    );
-
-                    localStorage.removeItem(bufferKey);
-                })
-                .catch(function (err) {
-                    console.error("Fail", err);
-                });
-        }
-    }
-
-    function addClickToBuffer() {
-        const user = getUser();
-        // if (!user || !user.userName) {
-        //     alert("Please Login First");
-        //     return;
-        // }
-
-        const bufferKey = getBufferKey(user.userName);
-        const now = new Date();
-        const hourKey = getHourKey(now);
-
-        let buffer = JSON.parse(localStorage.getItem(bufferKey)) || {};
-        if (buffer.hourKey !== hourKey) {
-            buffer = { hourKey, count: 0 };
-        }
-
-        buffer.count++;
-        localStorage.setItem(bufferKey, JSON.stringify(buffer));
-
-        // 畫面立即更新 log
-        const timeString = now.toLocaleTimeString();
-        const dateString = now.toLocaleDateString();
-        $("#logList").prepend(`<li>${dateString} ${timeString}</li>`);
-
-        const currentText = $("#counter").text();
-        const currentCount = parseInt(currentText.match(/\d+/)?.[0] || 0);
-        $("#counter").text(`Today's anxiety count: ${currentCount + 1}`);
-    }
-
-    function scheduleHourlyFlush() {
-        if (hourlyTimer === null) {
-            hourlyTimer = setInterval(function () {
-                sendBufferedAnxiety();
-            }, 60 * 60 * 1000); // 每一小時執行一次
-        }
-    }
-
-    // 初始化時先補送舊資料
-    sendBufferedAnxiety();
-    scheduleHourlyFlush();
-
-    // 點擊按鈕記錄焦慮
-    $("#trackButton").on("click", function () {
-        addClickToBuffer();
-    });
+    // 清除本地存儲
+    localStorage.removeItem("anxietyCount");
+    localStorage.removeItem("anxietyLog");
 });
