@@ -1,14 +1,18 @@
 import express from "express";
-import constructorMethod from "./routes/index.js";
-import cors from "cors";
+import cool from "cool-ascii-faces";
+
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(cors());
+app.get("/", (req, res) => {
+  res.send("Hello from Heroku!");
+});
 
-constructorMethod(app);
+app.get("/cool", (req, res) => {
+  console.log(`Rendering a cool ascii face for route '/cool'`);
+  res.send(cool());
+});
 
-app.listen(3000, () => {
-    console.log("We've now got a server!");
-    console.log("Your routes will be running on http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
