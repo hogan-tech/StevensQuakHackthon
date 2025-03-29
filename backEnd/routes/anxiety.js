@@ -26,7 +26,11 @@ router.post("/", async (req, res) => {
     }
 
     try {
-        const result = await updateAnxietyCount(userName, hourKey, count);
+        const result = await data.anxietyData.updateAnxietyCount(
+            userName,
+            hourKey,
+            count
+        );
         res.json({
             message: "Anxiety updated",
             timestamp: new Date().toLocaleString(),
