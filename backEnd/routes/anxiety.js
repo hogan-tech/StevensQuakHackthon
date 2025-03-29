@@ -18,12 +18,22 @@ router.route("/").get(async (req, res) => {
     }
 });
 
-router.route("/").post(async (req, res) => {
+router.post("/", async (req, res) => {
+    const { userName, hourKey, count } = req.body;
+
+    if (!userName || !hourKey || typeof count !== "number") {
+        return res.status(400).json({ error: "Missing or invalid data" });
+    }
+
     try {
-        let newUser = await data.anxietyData.addAnxiety("wesley");
-        return res.json({ count: newUser });
+        const result = await updateAnxietyCount(userName, hourKey, count);
+        res.json({
+            message: "Anxiety updated",
+            timestamp: new Date().toLocaleString(),
+            totalCount: result.totalCount,
+        });
     } catch (e) {
-        return res.status(500).json({ error: e });
+        res.status(500).json({ error: e.message });
     }
 });
 
