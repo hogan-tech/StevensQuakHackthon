@@ -3,10 +3,12 @@
 // import authorsRoutes from "./authors.js";
 
 import anxietyRoutes from "./anxiety.js";
+import usersRoute from "./users.js";
 const constructorMethod = (app) => {
     app.use("/anxiety", anxietyRoutes);
+    app.use("/users", usersRoute);
     app.use("*", (req, res) => {
-        res.status(404).json({ error: "Hello world" });
+        res.status(404).json({ error: "Not found" });
     });
 };
 
