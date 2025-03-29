@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>焦慮次數圖表</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>焦慮次數圖表</h1>
+    <canvas id="chart" width="600" height="300"></canvas>
+
+    <script>
+        // 从后端拉数据
+        fetch('/api/stats')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(item => item._id);
+                const counts = data.map(item => item.count);
+
+                const ctx = document.getElementById('chart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '每日焦慮次數',
+                            data: counts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true },
+                            x: { title: { display: true, text: '日期' } }
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
