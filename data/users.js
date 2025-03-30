@@ -5,11 +5,11 @@ import bcrypt from "bcrypt";
 export const addUser = async (userName, password) => {
     const usersCollection = await users();
 
-    // 檢查是否已有同名使用者
+    // Check if a user with the same username already exists
     const existingUser = await usersCollection.findOne({ userName });
     if (existingUser) throw new Error("Username already exists");
 
-    // 雜湊密碼
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = {
@@ -22,7 +22,7 @@ export const addUser = async (userName, password) => {
         throw new Error("Failed to insert user");
     }
 
-    // 回傳新使用者（不含密碼）
+    // Return the new user (without the password)
     const user = await usersCollection.findOne(
         { _id: insertRes.insertedId },
         { projection: { password: 0 } }
@@ -34,19 +34,19 @@ export const addUser = async (userName, password) => {
 export const loginUser = async (userName, password) => {
     const usersCollection = await users();
 
-    // 1. 查找使用者
+    // 1. Find the user
     const user = await usersCollection.findOne({ userName });
     if (!user) {
         throw new Error("User not found");
     }
 
-    // 2. 驗證密碼
+    // 2. Verify the password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         throw new Error("Invalid password");
     }
 
-    // 3. 回傳使用者（不包含密碼）
-    const { password: _, ...safeUser } = user; // 移除 password 欄位
+    // 3. Return the user (excluding the password)
+    const { password: _, ...safeUser } = user; // Remove the password field
     return safeUser;
 };
