@@ -132,8 +132,6 @@ Authenticates a user.
 
 ### 📊 Anxiety
 
-### 📊 Anxiety
-
 #### `POST /anxiety`
 
 Logs an anxiety event for a specific user on a specific day and time.
