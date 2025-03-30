@@ -1,6 +1,6 @@
-# 🧠 Mental Health Tracker - Backend
+# 🦆 Anxiety Tap Game - Backend
 
-This backend service is part of a mental health tracking platform designed to help users log their anxiety levels and usage patterns over time. The service supports user registration, login, and recording anxiety events, providing foundational support for data analytics and insights.
+Anxiety Tap Game is a calming, interactive mental health app designed to help users relieve anxiety through mindful tapping. Each tap triggers gentle feedback (sound + animation), logs data for analysis, and visualizes patterns over time. Built as a responsive **Progressive Web App (PWA)** with backend analytics support.
 
 ---
 
