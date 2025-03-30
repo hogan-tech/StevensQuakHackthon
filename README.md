@@ -3,7 +3,7 @@
 Anxiety Tap Game is a calming, interactive mental health app designed to help users relieve anxiety through mindful tapping. Each tap triggers gentle feedback (sound + animation), logs data for analysis, and visualizes patterns over time. Built as a responsive **Progressive Web App (PWA)** with backend analytics support.
 
 > 🔗 **Related Repositories**:
-> - 🌐 [Frontend Repo (This)](https://github.com/hogan-tech/StevensQuakHackthonFE)
+> - 🌐 [Frontend Repo](https://github.com/hogan-tech/StevensQuakHackthonFE)
 > - 🧠 [Backend Repo](https://github.com/hogan-tech/StevensQuakHackthon)
 > - 🌍 [GitHub Pages (Static Deployment)](https://github.com/hogan-tech/hogan-tech.github.io)
 
