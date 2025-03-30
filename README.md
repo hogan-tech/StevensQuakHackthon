@@ -4,6 +4,10 @@ Anxiety Tap Game is a calming, interactive mental health app designed to help us
 
 #### **[Demo Link](https://hogan-tech.github.io)** 
 
+Note: For demonstration purposes, please use the following account to test the login and explore the application. This account contains comprehensive test data, allowing for the most complete presentation of our application's features.
+
+Username: wesley Password: 123
+
 > 🔗 **Related Repositories**:
 > -  [Frontend Repo](https://github.com/hogan-tech/StevensQuakHackthonFE)
 > -  [Backend Repo](https://github.com/hogan-tech/StevensQuakHackthon)
