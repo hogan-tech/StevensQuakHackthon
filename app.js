@@ -9,9 +9,9 @@ app.use(express.json());
 
 configRoutes(app);
 
-// app.get("/", (req, res) => {
-//     res.send("Hello from Heroku!");
-// });
+app.get("/", (req, res) => {
+    res.send("Hello from Heroku!");
+});
 
 // app.get("/cool", (req, res) => {
 //     console.log(`Rendering a cool ascii face for route '/cool'`);
