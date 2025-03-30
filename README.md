@@ -198,7 +198,6 @@ Fetch previous seven days' anxiety data for a specific user.
         "count": 6,
         "time": ["08:12", "10:45", "13:00", "14:10", "18:30", "20:15"]
     },
-    ...
 ]
 ```
 
