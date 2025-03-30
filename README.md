@@ -179,9 +179,10 @@ This project is licensed under the ISC License – see the [LICENSE](./LICENSE) 
 ---
 
 ## 👤 Author  
-Hogan, Lin: GitHub: [@hogan-tech](https://github.com/hogan-tech)  
-Gaoyi, Wu: GitHub: [@Alfred768](https://github.com/Alfred768)  
-Wesley Kuo: GitHub: [@kuowesley](https://github.com/kuowesley)  
-Yu-An, Liao: GitHub: [@PeterLikeEat](https://github.com/PeterLikeEat)  
+- Hogan, Lin: GitHub: [@hogan-tech](https://github.com/hogan-tech)  
+- Gaoyi, Wu: GitHub: [@Alfred768](https://github.com/Alfred768)  
+- Wesley Kuo: GitHub: [@kuowesley](https://github.com/kuowesley)  
+- Yu-An, Liao: GitHub: [@PeterLikeEat](https://github.com/PeterLikeEat)
+
 
 
