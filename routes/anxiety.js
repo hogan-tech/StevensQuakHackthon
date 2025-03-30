@@ -16,7 +16,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
     const { userName, day, time } = req.body;
 
-    if (!userName || !hourKey || typeof count !== "number") {
+    if (!userName || !day || !time) {
         return res.status(400).json({ error: "Missing or invalid data" });
     }
 
@@ -26,11 +26,7 @@ router.post("/", async (req, res) => {
             day,
             time
         );
-        res.json({
-            message: "Anxiety updated",
-            timestamp: new Date().toLocaleString(),
-            totalCount: result.totalCount,
-        });
+        res.json(result);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
