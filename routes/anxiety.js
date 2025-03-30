@@ -32,4 +32,40 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.get("/today", async (req, res) => {
+    const { userName, day } = req.query;
+
+    if (!userName || !day) {
+        return res.status(400).json({ error: "Missing or invalid data" });
+    }
+
+    try {
+        const result = await data.anxietyData.getAnxietyCountToday(
+            userName,
+            day
+        );
+        res.json(result);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+router.get("/sevenDays", async (req, res) => {
+    const { userName, day } = req.query;
+
+    if (!userName || !day) {
+        return res.status(400).json({ error: "Missing or invalid data" });
+    }
+
+    try {
+        const result = await data.anxietyData.getAnxietyCountSevenDays(
+            userName,
+            day
+        );
+        res.json(result);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 export default router;

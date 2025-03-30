@@ -1,34 +1,6 @@
 import { anxiety } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 
-// export const addAnxiety = async (userName) => {
-//     const anxietyCollection = await anxiety();
-//     let newUser = {
-//         name: userName,
-//         count: 0,
-//     };
-//     const insertRes = await anxietyCollection.insertOne(newUser);
-//     if (!insertRes) {
-//         console.log(insertRes);
-//     }
-//     return insertRes.insertedId;
-// };
-
-// export const increaseAnxiety = async (userName) => {
-//     const anxietyCollection = await anxiety();
-//     const updateResult = await anxietyCollection.findOneAndUpdate(
-//         { name: userName }, // Query condition
-//         { $inc: { count: 1 } }, // Increment the count field by 1
-//         { returnDocument: "after" } // Return the document after the update
-//     );
-
-//     if (!updateResult) {
-//         throw `User not found`;
-//     }
-
-//     return updateResult;
-// };
-
 export const updateAnxietyCount = async (userName, day, time) => {
     const anxietyCollection = await anxiety();
 
@@ -49,4 +21,42 @@ export const updateAnxietyCount = async (userName, day, time) => {
         totalCount: updatedDoc?.count || 0,
         timeArray: updatedDoc?.time || [],
     };
+};
+
+export const getAnxietyCountToday = async (userName, day) => {
+    const anxietyCollection = await anxiety();
+
+    const result = await anxietyCollection.findOne({ userName, day });
+
+    return {
+        day: day,
+        count: result?.count || 0,
+        time: result?.time || [],
+    };
+};
+
+export const getAnxietyCountSevenDays = async (userName, day) => {
+    const anxietyCollection = await anxiety();
+
+    const endDate = new Date(day);
+    const startDate = new Date(day);
+    startDate.setDate(endDate.getDate() - 6); // 6 days before, so total 7 days
+
+    const toDateString = (d) => d.toISOString().slice(0, 10);
+    const startStr = toDateString(startDate);
+    const endStr = toDateString(endDate);
+
+    const result = await anxietyCollection
+        .find({
+            userName,
+            day: { $gte: startStr, $lte: endStr },
+        })
+        .sort({ day: 1 }) // optional: sort by day ascending
+        .toArray();
+
+    return result.map((entry) => ({
+        day: entry.day,
+        count: entry.count || 0,
+        time: entry.time || [],
+    }));
 };
